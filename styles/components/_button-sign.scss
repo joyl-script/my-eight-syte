@@ -1,0 +1,19 @@
+@use '../functions' as *;
+
+.btn-sign {
+  font-family: var(--third-family);
+  font-weight: 400;
+  font-size: rem(15);
+  text-align: center;
+  color: var(--white);
+  padding: rem(10) rem(15);
+  border-radius: 10px;
+  border: 1px solid var(--white);
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+
+    transform: scale(1.06);
+  }
+}

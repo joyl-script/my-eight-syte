@@ -1,0 +1,137 @@
+@use './../functions' as *;
+
+
+.main {
+  display: grid;
+  gap: rem(50);
+}
+
+.movies {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: rem(15);
+  padding: rem(20) rem(50);
+  scrollbar-width: none;
+  position: relative;
+
+}
+
+.movie {
+  width: rem(230);
+  flex: 0 0 auto;
+
+  &__title {
+    font-family: var(--font3);
+    font-weight: 700;
+    font-size: rem(30);
+    line-height: 125%;
+    letter-spacing: 0.01em;
+    color: var(--white);
+    margin-top: rem(24);
+  }
+
+  &__img {
+    border-radius: rem(16);
+    width: 100%;
+    height: rem(345);
+    object-fit: cover;
+    display: block;
+  }
+
+  &__name {
+    position: absolute;
+    bottom: rem(30);
+    left: rem(15);
+    font-family: var(--font3);
+    font-weight: 700;
+    font-size: rem(14);
+    line-height: 150%;
+    letter-spacing: 0.01em;
+    color: #f9f9f9;
+    z-index: 4;
+    margin: 0;
+    text-shadow: 0 1rem() 3rem() rgba(0, 0, 0, 0.5);
+  }
+
+  &-desc {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: rem(7);
+    left: rem(15);
+    z-index: 4;
+    gap: rem(5);
+
+    &__rating {
+      font-family: var(--font3);
+      font-weight: 600;
+      font-size: rem(12);
+      line-height: 167%;
+      letter-spacing: 0.01em;
+      color: #ffcd3c;
+    }
+
+    &__genre {
+      font-family: var(--font3);
+      font-weight: 500;
+      font-size: rem(12);
+      line-height: 167%;
+      letter-spacing: 0.01em;
+      color: #cbd5e1;
+    }
+  }
+
+  &-container {
+    &__cart {
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 60%;
+        background: linear-gradient(to top,
+            rgba(0, 0, 0, 0.9) 0%,
+            rgba(0, 0, 0, 0) 100%);
+        border-radius: rem(16);
+        pointer-events: none;
+        z-index: 2;
+      }
+    }
+  }
+}
+
+
+
+
+.arrow {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+  bottom: rem(-200);
+
+
+
+  &-btn {
+    background-color: var(--black-1);
+    border-radius: rem(100);
+    padding: rem(6);
+
+  }
+
+  &-right {
+    margin-left: rem(-50);
+  }
+
+  &-left {
+    margin-right: rem(-50);
+  }
+
+
+
+}

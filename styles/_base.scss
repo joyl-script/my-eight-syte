@@ -1,0 +1,66 @@
+@use './functions' as *;
+
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--black-3);
+}
+
+a {
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: var(--green);
+  }
+}
+
+
+.container {
+  max-width: rem(1290);
+  margin: 0 auto;
+  padding: 0 rem(15);
+}
+
+.logo {
+  cursor: pointer;
+}
+
+.img-btn {
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.08);
+  }
+}
+
+.btn-big {
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.08);
+  }
+}
+
+.link-hover {
+  transition: all 0.3 ease;
+
+  &:hover {
+    border-bottom: 1px solid var(--green);
+  }
+}
+
+.cart-img {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.03);
+  }
+}

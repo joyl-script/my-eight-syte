@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="icons/Logo (3).svg">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/api-movie-details.js" defer></script>
+  <script src="https://unpkg.com/@ungap/custom-elements-builtin"></script>
+  <script type="module" src="https://unpkg.com/x-frame-bypass"></script>
+  <title>movie-details</title>
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-top">
+        <img src="icons/Component 1.svg" alt="logo" class="logo">
+        <nav class="nav">
+          <ul class="nav-list">
+            <li class="nav-list__item link-hover"><a href="#popular">Popular</a></li>
+            <li class="nav-list__item link-hover"><a href="#movies">Movie</a></li>
+            <li class="nav-list__item link-hover"><a href="#series">Series</a></li>
+            <li class="nav-list__item link-hover"><a href="#cartoons">Сartoons</a></li>
+          </ul>
+        </nav>
+        <div class="header-avatar">
+          <form id="form">
+            <input id="form-poisk" class="header-avatar__poisk" placeholder="Поиск" type="text">
+          </form>
+        </div>
+      </div>
+
+      <!-- Модальное окно для видео -->
+      <div id="videoModal" class="video-modal">
+        <div class="video-modal-content">
+          <span class="close-modal">&times;</span>
+          <iframe id="videoIframe" is="x-frame-bypass" width="100%" height="100%" allowfullscreen></iframe>
+        </div>
+      </div>
+
+      <div class="header-bottom">
+        <div class="info">
+        </div>
+      </div>
+
+    </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="movies-details">
+      <div class="container movies-details__container">
+        <h3 class="story__title">Story Line</h3>
+        <div id="story-container">
+        </div>
+        <h3 class="acter__title">Top Cast</h3>
+        <div id="acter-container">
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+
+  <footer class="footer">
+    <div class="container footer__container">
+      <div class="content">
+        <h3 class="content__title">Our platform is trusted by millions & features best updated movies all around the
+          world.</h3>
+        <div class="content-system">
+          <a href="#" class="content__desc">Privacy policy</a>
+          <a href="#" class="content__desc">Term of service</a>
+          <a href="#" class="content__desc">Language</a>
+        </div>
+      </div>
+      <div class="services">
+        <div class="services-section">
+          <p class="services__desc">Home /</p>
+          <p class="services__desc">Discover /</p>
+          <p class="services__desc">Influence /</p>
+          <p class="services__desc">Release </p>
+        </div>
+
+        <div class="services-coz">
+          <img src="icons/Instagram.svg" alt="instagram" class="img-btn">
+          <img src="icons/Facebook.svg" alt="instagram" class="img-btn">
+          <img src="icons/Twitter.svg" alt="instagram" class="img-btn">
+          <img src="icons/Google.svg" alt="instagram" class="img-btn">
+        </div>
+        <div class="services-age">© 2023
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

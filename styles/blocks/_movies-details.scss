@@ -1,0 +1,89 @@
+@use '../functions' as *;
+
+.movies-details {
+  margin-top: rem(64);
+}
+
+
+.story {
+
+
+  &__title {
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-style: Bold;
+    font-size: rem(18);
+    color: var(--white);
+  }
+
+  &__desc {
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-style: Medium;
+    font-size: rem(16);
+    color: var(--grey);
+    margin-top: rem(16);
+  }
+}
+
+.acter {
+
+  &-container {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: rem(60);
+    padding: rem(20) rem(50);
+    scrollbar-width: none;
+    position: relative;
+  }
+
+  margin-top: rem(16);
+
+  &__img {
+    border-radius: rem(15);
+  }
+
+  &__title {
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-style: Bold;
+    font-size: rem(18);
+    color: var(--white);
+    margin-top: rem(16);
+  }
+
+  &-details {
+    display: flex;
+    align-items: center;
+    gap: rem(12);
+
+  }
+
+  &-name {
+
+    display: grid;
+    gap: rem(3);
+
+    &__one {
+      font-family: var(--font-family);
+      font-weight: 600;
+      font-size: rem(16);
+      color: #F9F9F9;
+    }
+
+    &__two {
+      font-family: var(--font-family);
+      font-weight: 500;
+      font-size: rem(12);
+      color: var(--grey);
+    }
+  }
+}
+
+.arrow-acter {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  top: rem(70);
+}

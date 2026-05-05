@@ -1,0 +1,19 @@
+@use '../functions' as *;
+
+.btn-login {
+  font-family: var(--third-family);
+  font-weight: 400;
+  font-size: rem(15);
+  text-align: center;
+  background-color: var(--green);
+  color: var(--white);
+  padding: rem(12) rem(15);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+
+    transform: scale(1.06);
+  }
+}

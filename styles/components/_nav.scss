@@ -1,0 +1,17 @@
+@use './../functions' as *;
+
+.nav {
+
+  &-list {
+    display: flex;
+    align-items: center;
+    gap: rem(32);
+
+    &__item {
+      font-family: var(--font-family);
+      font-weight: 400;
+      font-size: rem(16);
+      color: var(--white);
+    }
+  }
+}
