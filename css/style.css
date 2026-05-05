@@ -750,7 +750,7 @@ a:hover {
 }
 
 .header {
-  --header-poster: url('/img/scale_1200 (1).jpg');
+  --header-poster: url('img/scale_1200.jpg');
   background: linear-gradient(rgb(0, 0, 0), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5), #08080a), var(--header-poster);
   background-repeat: no-repeat;
   width: 100%;
