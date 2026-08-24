@@ -1,14 +1,36 @@
 @use './functions' as *;
 
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
-
 html {
   scroll-behavior: smooth;
+  scrollbar-color: var(--black-1) var(--black-3);
 }
 
 body {
   background-color: var(--black-3);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--black-3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--black-1);
+  border-radius: rem(8);
+
+  &:hover {
+    background: var(--green);
+  }
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
 }
 
 a {
@@ -53,14 +75,5 @@ a {
 
   &:hover {
     border-bottom: 1px solid var(--green);
-  }
-}
-
-.cart-img {
-  cursor: pointer;
-  transition: transform 0.3s ease;
-
-  &:hover {
-    transform: scale(1.03);
   }
 }

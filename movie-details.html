@@ -5,11 +5,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="icons/Logo (3).svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400..900&family=Roboto:wght@400;500&family=Rubik:wght@300..900&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://kinopoiskapiunofficial.tech">
+  <link rel="preconnect" href="https://avatars.mds.yandex.net">
   <script src="js/api-movie-details.js" defer></script>
-  <script src="https://unpkg.com/@ungap/custom-elements-builtin"></script>
-  <script type="module" src="https://unpkg.com/x-frame-bypass"></script>
-  <title>movie-details</title>
+  <title>Movie App — о фильме</title>
 </head>
 
 <body>
@@ -36,7 +41,7 @@
       <div id="videoModal" class="video-modal">
         <div class="video-modal-content">
           <span class="close-modal">&times;</span>
-          <iframe id="videoIframe" is="x-frame-bypass" width="100%" height="100%" allowfullscreen></iframe>
+          <iframe id="videoIframe" width="100%" height="100%" allow="autoplay; fullscreen; encrypted-media" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
         </div>
       </div>
 

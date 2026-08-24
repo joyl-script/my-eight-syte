@@ -14,12 +14,39 @@
   padding: rem(20) rem(50);
   scrollbar-width: none;
   position: relative;
+  scroll-behavior: smooth;
+  scroll-snap-type: x proximity;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
 
+  &.dragging {
+    scroll-behavior: auto;
+    cursor: grabbing;
+
+    .movie-container__cart {
+      pointer-events: none;
+    }
+  }
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(rem(14));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .movie {
   width: rem(230);
   flex: 0 0 auto;
+  scroll-snap-align: start;
+  animation: card-in 0.45s ease both;
+  animation-delay: var(--delay, 0ms);
 
   &__title {
     font-family: var(--font3);
@@ -37,6 +64,7 @@
     height: rem(345);
     object-fit: cover;
     display: block;
+    transition: transform 0.5s ease;
   }
 
   &__name {
@@ -85,6 +113,21 @@
   &-container {
     &__cart {
       position: relative;
+      overflow: hidden;
+      border-radius: rem(16);
+      cursor: pointer;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+
+      &:hover {
+        transform: translateY(-6px);
+        box-shadow:
+          0 rem(14) rem(34) rgba(0, 0, 0, 0.55),
+          0 0 0 1px rgba(0, 146, 93, 0.35);
+
+        .movie__img {
+          transform: scale(1.06);
+        }
+      }
 
       &::after {
         content: '';
@@ -104,34 +147,82 @@
   }
 }
 
+.skeleton-card {
+  width: rem(230);
+  flex: 0 0 auto;
+
+  &__poster {
+    width: 100%;
+    height: rem(345);
+    border-radius: rem(16);
+    background: linear-gradient(100deg,
+        var(--black-2) 40%,
+        #1c1a20 50%,
+        var(--black-2) 60%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: -200% 0;
+  }
+}
 
 
+
+
+.main .container {
+  position: relative;
+}
 
 .arrow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: rem(230);
   display: flex;
-  position: relative;
   justify-content: space-between;
   align-items: center;
-  z-index: 2;
-  bottom: rem(-200);
-
-
+  z-index: 10;
+  padding: 0 rem(12);
+  pointer-events: none;
 
   &-btn {
-    background-color: var(--black-1);
+    pointer-events: auto;
+    background-color: rgba(40, 38, 45, 0.85);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: rem(100);
-    padding: rem(6);
+    padding: rem(8);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 
+    img {
+      display: block;
+    }
+
+    &:hover {
+      background-color: var(--green);
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(0.94);
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .movie {
+    animation: none;
   }
 
-  &-right {
-    margin-left: rem(-50);
+  .skeleton-card__poster {
+    animation-duration: 3s;
   }
-
-  &-left {
-    margin-right: rem(-50);
-  }
-
-
-
 }

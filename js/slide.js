@@ -1,72 +1,83 @@
-const popular = document.getElementById('popular-container')
-const movies = document.getElementById('movies-container')
-const series = document.getElementById('series-container')
-const cartoons = document.getElementById('cartoons-container')
-const btnPrevPopular = document.getElementById('btn-prev-popular')
-const btnNextPopular = document.getElementById('btn-next-popular')
-const btnPrevMovies = document.getElementById('btn-prev-movies')
-const btnNextMovies = document.getElementById('btn-next-movies')
-const btnPrevSeries = document.getElementById('btn-prev-series')
-const btnNextSeries = document.getElementById('btn-next-series')
-const btnPrevCartoons = document.getElementById('btn-prev-cartoons')
-const btnNextCartoons = document.getElementById('btn-next-cartoons')
+const rows = [
+  {
+    row: document.getElementById('popular-container'),
+    prev: document.getElementById('btn-prev-popular'),
+    next: document.getElementById('btn-next-popular'),
+  },
+  {
+    row: document.getElementById('movies-container'),
+    prev: document.getElementById('btn-prev-movies'),
+    next: document.getElementById('btn-next-movies'),
+  },
+  {
+    row: document.getElementById('series-container'),
+    prev: document.getElementById('btn-prev-series'),
+    next: document.getElementById('btn-next-series'),
+  },
+  {
+    row: document.getElementById('cartoons-container'),
+    prev: document.getElementById('btn-prev-cartoons'),
+    next: document.getElementById('btn-next-cartoons'),
+  },
+]
 
-const scrollAmount = 260
+const scrollAmount = 780
 
-btnNextPopular.addEventListener("click", () => {
-  popular.scrollBy({
-    left: scrollAmount,
-    behavior: 'smooth'
-  })
+rows.forEach(({ row, prev, next }) => {
+  if (!row) return
+
+  if (prev) {
+    prev.addEventListener('click', () => {
+      row.scrollBy({ left: -scrollAmount, behavior: 'smooth' })
+    })
+  }
+
+  if (next) {
+    next.addEventListener('click', () => {
+      row.scrollBy({ left: scrollAmount, behavior: 'smooth' })
+    })
+  }
+
+  enableDragToScroll(row)
 })
 
-btnPrevPopular.addEventListener("click", () => {
-  popular.scrollBy({
-    left: -scrollAmount,
-    behavior: 'smooth'
+function enableDragToScroll(row) {
+  let isDown = false
+  let startX = 0
+  let startScrollLeft = 0
+  let dragged = false
+
+  row.addEventListener('pointerdown', (e) => {
+    if (e.pointerType !== 'mouse') return
+    isDown = true
+    dragged = false
+    startX = e.clientX
+    startScrollLeft = row.scrollLeft
   })
-})
 
-
-btnNextMovies.addEventListener("click", () => {
-  movies.scrollBy({
-    left: scrollAmount,
-    behavior: 'smooth'
+  window.addEventListener('pointermove', (e) => {
+    if (!isDown) return
+    const dx = e.clientX - startX
+    if (!dragged && Math.abs(dx) > 6) {
+      dragged = true
+      row.classList.add('dragging')
+    }
+    if (dragged) {
+      row.scrollLeft = startScrollLeft - dx
+    }
   })
-})
 
-btnPrevMovies.addEventListener("click", () => {
-  movies.scrollBy({
-    left: -scrollAmount,
-    behavior: 'smooth'
+  window.addEventListener('pointerup', () => {
+    if (!isDown) return
+    isDown = false
+    requestAnimationFrame(() => row.classList.remove('dragging'))
   })
-})
 
-btnNextSeries.addEventListener("click", () => {
-  series.scrollBy({
-    left: scrollAmount,
-    behavior: 'smooth'
-  })
-})
-
-btnPrevSeries.addEventListener("click", () => {
-  series.scrollBy({
-    left: -scrollAmount,
-    behavior: 'smooth'
-  })
-})
-
-btnNextCartoons.addEventListener("click", () => {
-  cartoons.scrollBy({
-    left: scrollAmount,
-    behavior: 'smooth'
-  })
-})
-
-btnPrevCartoons.addEventListener("click", () => {
-  cartoons.scrollBy({
-    left: -scrollAmount,
-    behavior: 'smooth'
-  })
-})
-
+  row.addEventListener('click', (e) => {
+    if (dragged) {
+      e.preventDefault()
+      e.stopPropagation()
+      dragged = false
+    }
+  }, true)
+}

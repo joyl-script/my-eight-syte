@@ -1,63 +1,68 @@
-// Убираем жестко заданный FILM_ID
-const NEW_API_KEY = '863891fb-ee82-445d-98e7-f1911eabc3cc';
+const API_KEY = '863891fb-ee82-445d-98e7-f1911eabc3cc';
 
-// Функция преобразования YouTube ссылки
-function convertToEmbedUrl(url) {
-  if (!url) return url;
-
-  if (url.includes('youtube.com/v/')) {
-    const videoId = url.split('/v/')[1];
-    return `https://www.youtube.com/embed/${videoId}`;
-  }
-
-  return url;
-}
-
-// Добавляем функцию для получения ID из URL
 function getMovieIdFromUrl() {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get('id');
 }
 
-// Меняем функцию loadAllMovieData - теперь она принимает ID
-async function loadAllMovieData(movieId) {
-  if (!movieId) {
-    console.error('No movie ID provided');
-    return;
-  }
+function youTubeEmbedUrl(url) {
+  if (!url) return null;
 
+  let match = url.match(/[?&]v=([\w-]{6,})/)
+    || url.match(/youtu\.be\/([\w-]{6,})/)
+    || url.match(/youtube\.com\/embed\/([\w-]{6,})/)
+    || url.match(/youtube\.com\/v\/([\w-]{6,})/);
+
+  return match ? `https://www.youtube-nocookie.com/embed/${match[1]}?autoplay=1` : null;
+}
+
+function youTubeSearchUrl(query) {
+  return 'https://www.youtube.com/results?search_query=' + encodeURIComponent(query);
+}
+
+async function fetchJson(url) {
+  const response = await fetch(url, { headers: { 'X-API-KEY': API_KEY } });
+  if (!response.ok) throw new Error('HTTP ' + response.status);
+  return response.json();
+}
+
+async function loadAllMovieData(movieId) {
   const API_ID_MOVIES = `https://kinopoiskapiunofficial.tech/api/v2.2/films/${movieId}`;
   const API_ACTER = `https://kinopoiskapiunofficial.tech/api/v1/staff?filmId=${movieId}`;
   const API_VIDEO = `https://kinopoiskapiunofficial.tech/api/v2.2/films/${movieId}/videos`;
 
-  const [movieDetails, actorsData, videoData] = await Promise.all([
-    fetch(API_ID_MOVIES, { headers: { 'X-API-KEY': NEW_API_KEY } }).then(r => r.json()),
-    fetch(API_ACTER, { headers: { 'X-API-KEY': NEW_API_KEY } }).then(r => r.json()),
-    fetch(API_VIDEO, { headers: { 'X-API-KEY': NEW_API_KEY } }).then(r => r.json())
-  ]);
+  let movieDetails, actorsData, videoData;
+  try {
+    [movieDetails, actorsData, videoData] = await Promise.all([
+      fetchJson(API_ID_MOVIES),
+      fetchJson(API_ACTER),
+      fetchJson(API_VIDEO),
+    ]);
+  } catch (error) {
+    document.body.innerHTML =
+      '<h1 style="text-align:center;margin-top:50px;color:#fff;">Не удалось загрузить данные о фильме</h1>' +
+      '<p style="text-align:center;"><a href="main.html">Вернуться к каталогу</a></p>';
+    return;
+  }
 
   renderDescription(movieDetails, 'story-container');
   renderActors(actorsData, 'acter-container');
   updateHeaderWithMovie(movieDetails);
+  updateHeaderPoster(movieDetails);
 
-  // Извлекаем ссылки на трейлер и полный фильм
-  let trailerUrl = null;
-  let movieFullUrl = null;
+  const items = (videoData && videoData.items) || [];
+  const youtubeTrailer = items.find(item => item.site === 'YOUTUBE');
+  const externalSource = items.find(item => item.site !== 'YOUTUBE' && item.url);
 
-  if (videoData && videoData.items) {
-    for (const item of videoData.items) {
-      if (item.site === 'YOUTUBE' && !trailerUrl) {
-        trailerUrl = item.url;
-      }
-      if (item.site === 'KINOPOISK_WIDGET' && !movieFullUrl) {
-        movieFullUrl = item.url;
-      }
-    }
-  }
+  const title = movieDetails.nameRu || movieDetails.nameEn || '';
 
-  // Сохраняем ссылки глобально
-  window.videoLinks = { trailerUrl, movieFullUrl };
-  console.log('Видео ссылки загружены:', window.videoLinks);
+  window.videoLinks = {
+    trailerEmbed: youTubeEmbedUrl(youtubeTrailer && youtubeTrailer.url),
+    trailerSearch: youTubeSearchUrl(`${title} трейлер`),
+    watchExternal: externalSource && externalSource.url,
+    watchSearch: youTubeSearchUrl(`${title} фильм смотреть онлайн полностью`),
+    webUrl: movieDetails.webUrl,
+  };
 }
 
 function renderDescription(details, containerId) {
@@ -70,13 +75,13 @@ function renderDescription(details, containerId) {
 
 function renderActors(actors, containerId) {
   const container = document.getElementById(containerId);
-  if (!container) return;
+  if (!container || !Array.isArray(actors)) return;
 
-  container.innerHTML = ` 
+  container.innerHTML = `
     <div class="acter-container">
       ${actors.slice(0, 6).map(actor => `
         <div class="acter-details">
-          <img src="${actor.posterUrl || 'default.jpg'}" alt="${actor.nameRu || ''}" class="acter__img" width="40" height="70">
+          <img src="${actor.posterUrl || 'https://placehold.co/40x70'}" alt="${actor.nameRu || ''}" class="acter__img" width="40" height="70" loading="lazy" decoding="async">
           <div class="acter-name">
             <h4 class="acter-name__one">${actor.nameRu || 'Неизвестно'}</h4>
             <p class="acter-name__two">${actor.description || ''}</p>
@@ -88,128 +93,115 @@ function renderActors(actors, containerId) {
 }
 
 function updateHeaderWithMovie(movie) {
-  updateHeaderPoster(movie);
   updateHeaderInfo(movie);
 }
 
 function updateHeaderPoster(movie) {
   const header = document.querySelector('.header');
   const posterUrl = movie.backgroundImage || movie.coverUrl || movie.posterUrl;
-  if (posterUrl) {
+  if (header && posterUrl) {
     header.style.setProperty('--header-poster', `url(${posterUrl})`);
   }
 }
 
+const TYPE_NAMES = {
+  FILM: 'Фильм',
+  TV_SERIES: 'Сериал',
+  MINI_SERIES: 'Мини-сериал',
+  TV_SHOW: 'ТВ-шоу',
+  VIDEO: 'Видео',
+};
+
 function updateHeaderInfo(movie) {
   const info = document.querySelector('.info');
-  const title = movie.nameRu;
-  const type = movie.type;
+  if (!info) return;
+
+  const type = TYPE_NAMES[movie.type] || 'Фильм';
+  const year = movie.year ? ` (${movie.year})` : '';
+  const rating = movie.ratingKinopoisk ? `⭐ ${Number(movie.ratingKinopoisk).toFixed(1)}` : '';
+  const slogan = movie.slogan ? `<p class="info__slogan">${movie.slogan}</p>` : '';
+  const genres = (movie.genres || []).map(g => g.genre).slice(0, 3).join(' · ');
 
   info.innerHTML = `
-    <button class="btn-genre">${type}</button>
-    <h2 class="info__title">${title}</h2>
+    <button class="btn-genre">${type}${year}${rating ? ' · ' + rating : ''}</button>
+    <h2 class="info__title">${movie.nameRu || movie.nameEn || 'Без названия'}</h2>
+    ${slogan}
+    <p class="story__desc">${genres}</p>
     <div class="info-button">
-      <button id="watch-movie" class="btn-counting btn-big"> 
-        <img src="icons/play.svg" alt="">Play Now
+      <button id="watch-movie" class="btn-counting btn-big">
+        <img src="icons/play.svg" alt="">Смотреть фильм
       </button>
-      <button id="watch-treller" class="btn-add btn-big"> 
-        <img src="icons/play.svg" alt="">Watch Trailer
+      <button id="watch-treller" class="btn-add btn-big">
+        <img src="icons/play.svg" alt="">Смотреть трейлер
       </button>
     </div>
   `;
 
-  // После создания кнопок — навешиваем обработчики
   attachVideoHandlers();
 }
 
-// Получаем ID из URL и загружаем фильм
-const movieId = getMovieIdFromUrl();
-if (movieId) {
-  loadAllMovieData(movieId);
-} else {
-  console.error('No movie ID specified in URL');
-  document.body.innerHTML = '<h1 style="text-align:center;margin-top:50px;">Ошибка: Фильм не выбран</h1><p style="text-align:center;"><a href="index.html">Вернуться на главную</a></p>';
-}
+// ========== МОДАЛЬНОЕ ОКНО С ВИДЕО ==========
 
-// ========== УПРАВЛЕНИЕ МОДАЛЬНЫМ ОКНОМ ==========
-
-// Находим элементы на странице
 const modal = document.getElementById('videoModal');
 const iframe = document.getElementById('videoIframe');
 const closeBtn = document.querySelector('.close-modal');
 
-// Функция открытия окна с видео (только для YouTube)
-function openModalWithVideo(videoUrl) {
-  if (!videoUrl) {
-    alert('Видео не найдено');
-    return;
-  }
-
-  const embedUrl = convertToEmbedUrl(videoUrl);
-  iframe.src = '';
-  iframe.removeAttribute('is');
+function openModalWithVideo(embedUrl) {
   iframe.src = embedUrl;
   modal.style.display = 'flex';
 }
 
-// Функция закрытия окна
 function closeModal() {
   modal.style.display = 'none';
-  // Останавливаем видео
   iframe.src = '';
 }
 
-// При клике на крестик — закрываем
-if (closeBtn) {
-  closeBtn.addEventListener('click', closeModal);
-}
+if (closeBtn) closeBtn.addEventListener('click', closeModal);
 
-// При клике на фон — тоже закрываем
 if (modal) {
   modal.addEventListener('click', function (event) {
-    if (event.target === modal) {
-      closeModal();
-    }
+    if (event.target === modal) closeModal();
   });
 }
 
-// ========== ПРИВЯЗЫВАЕМ КНОПКИ К ОТКРЫТИЮ ОКНА ==========
+document.addEventListener('keydown', function (event) {
+  if (event.key === 'Escape' && modal.style.display === 'flex') closeModal();
+});
+
+// ========== КНОПКИ ==========
 
 function attachVideoHandlers() {
   const playMovieBtn = document.getElementById('watch-movie');
   const playTrailerBtn = document.getElementById('watch-treller');
 
-  // Обработчик для кнопки "Play Now"
-  if (playMovieBtn) {
-    // Убираем старые обработчики
-    const newPlayBtn = playMovieBtn.cloneNode(true);
-    playMovieBtn.parentNode.replaceChild(newPlayBtn, playMovieBtn);
-
-    newPlayBtn.addEventListener('click', function () {
-      if (window.videoLinks && window.videoLinks.trailerUrl) {
-        openModalWithVideo(window.videoLinks.trailerUrl);
+  if (playTrailerBtn) {
+    playTrailerBtn.addEventListener('click', () => {
+      const links = window.videoLinks || {};
+      if (links.trailerEmbed) {
+        openModalWithVideo(links.trailerEmbed);
       } else {
-        alert('Трейлер не найден для этого фильма');
+        window.open(links.trailerSearch, '_blank', 'noopener');
       }
     });
   }
 
-  // Обработчик для кнопки "Watch Trailer"
-  if (playTrailerBtn) {
-    const newTrailerBtn = playTrailerBtn.cloneNode(true);
-    playTrailerBtn.parentNode.replaceChild(newTrailerBtn, playTrailerBtn);
-
-    newTrailerBtn.addEventListener('click', function () {
-      if (window.videoLinks && window.videoLinks.trailerUrl) {
-        openModalWithVideo(window.videoLinks.trailerUrl);
+  if (playMovieBtn) {
+    playMovieBtn.addEventListener('click', () => {
+      const links = window.videoLinks || {};
+      if (links.watchExternal) {
+        window.open(links.watchExternal, '_blank', 'noopener');
       } else {
-        alert('Трейлер не найден для этого фильма');
+        window.open(links.watchSearch, '_blank', 'noopener');
       }
     });
   }
 }
 
-// Первоначальная попытка навесить обработчики
-document.addEventListener('DOMContentLoaded', function () {
-  setTimeout(attachVideoHandlers, 500);
-});
+const movieId = getMovieIdFromUrl();
+if (movieId) {
+  loadAllMovieData(movieId);
+} else {
+  document.body.innerHTML =
+    '<h1 style="text-align:center;margin-top:50px;color:#fff;">Ошибка: фильм не выбран</h1>' +
+    '<p style="text-align:center;"><a href="main.html">Вернуться к каталогу</a></p>';
+}
