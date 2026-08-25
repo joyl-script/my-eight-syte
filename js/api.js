@@ -102,7 +102,6 @@ function showMovies(data, containerId) {
   })
 }
 
-// Поиск
 const input = document.getElementById('form-poisk')
 const form = document.getElementById('form')
 

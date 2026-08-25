@@ -3,14 +3,10 @@
 @use 'variables';
 @use 'functions';
 
-// blocks
-
 @use 'blocks/home';
 @use 'blocks/movies';
 @use 'blocks/movies-details';
 
-
-// components
 @use 'components/button-sign';
 @use 'components/button-login';
 @use 'components/modal-login';
@@ -19,6 +15,6 @@
 @use 'components/info-actions';
 @use 'components/video-modal';
 
-// layout
 @use 'layouts/footer';
 @use 'layouts/header';
+@use 'responsive';

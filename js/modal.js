@@ -6,8 +6,6 @@ const modalSign = document.getElementById('modal-sign')
 const openSignBtn = document.getElementById('btn-sign')
 const closeSign = document.getElementById('closeSign')
 
-// модальное окно для login
-
 const openModalLogin = () => {
   modalLogin.classList.add('active')
   overlay.classList.add('active')
@@ -25,8 +23,6 @@ overlay.addEventListener('click', closeModalLogin)
 modalLogin.addEventListener('click', (event) => {
   event.stopPropagation()
 })
-
-// модальное окно для sign
 
 const openModalSign = () => {
   modalSign.classList.add('active')
@@ -47,8 +43,6 @@ modalSign.addEventListener('click', (item) => {
 })
 
 
-// переход на другую страницу
-
 const login = document.getElementById('login')
 const sign = document.getElementById('sign')
 
@@ -59,6 +53,3 @@ login.addEventListener('click', () => {
 sign.addEventListener('click', () => {
   window.location.href = 'main.html'
 })
-
-
-// poisk 

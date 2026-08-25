@@ -140,8 +140,6 @@ function updateHeaderInfo(movie) {
   attachVideoHandlers();
 }
 
-// ========== МОДАЛЬНОЕ ОКНО С ВИДЕО ==========
-
 const modal = document.getElementById('videoModal');
 const iframe = document.getElementById('videoIframe');
 const closeBtn = document.querySelector('.close-modal');
@@ -167,8 +165,6 @@ if (modal) {
 document.addEventListener('keydown', function (event) {
   if (event.key === 'Escape' && modal.style.display === 'flex') closeModal();
 });
-
-// ========== КНОПКИ ==========
 
 function attachVideoHandlers() {
   const playMovieBtn = document.getElementById('watch-movie');

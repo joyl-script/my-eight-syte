@@ -1,6 +1,5 @@
 .video-modal {
   display: none;
-  /* Скрыто по умолчанию */
   position: fixed;
   top: 0;
   left: 0;
@@ -12,7 +11,6 @@
   align-items: center;
 }
 
-/* Контейнер с видео */
 .video-modal-content {
   position: relative;
   width: 80%;
@@ -22,7 +20,6 @@
   overflow: hidden;
 }
 
-/* Кнопка закрытия */
 .close-modal {
   position: absolute;
   top: 10px;
@@ -39,7 +36,6 @@
   color: #ff0000;
 }
 
-/* Iframe внутри модального окна */
 #videoIframe {
   width: 100%;
   height: 100%;

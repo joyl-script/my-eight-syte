@@ -1,4 +1,3 @@
-@charset "UTF-8";
 *,
 *::before,
 *::after {
@@ -43,7 +42,6 @@ video {
   object-fit: cover;
 }
 
-/* form */
 input,
 textarea,
 button,
@@ -744,7 +742,6 @@ a:hover {
 
 .video-modal {
   display: none;
-  /* Скрыто по умолчанию */
   position: fixed;
   top: 0;
   left: 0;
@@ -756,7 +753,6 @@ a:hover {
   align-items: center;
 }
 
-/* Контейнер с видео */
 .video-modal-content {
   position: relative;
   width: 80%;
@@ -766,7 +762,6 @@ a:hover {
   overflow: hidden;
 }
 
-/* Кнопка закрытия */
 .close-modal {
   position: absolute;
   top: 10px;
@@ -783,7 +778,6 @@ a:hover {
   color: #ff0000;
 }
 
-/* Iframe внутри модального окна */
 #videoIframe {
   width: 100%;
   height: 100%;
@@ -893,4 +887,225 @@ a:hover {
 }
 .header-avatar__poisk:focus {
   outline: none;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 0.75rem;
+  }
+  .header {
+    padding: 1.25rem 0 0 0;
+  }
+  .header__container {
+    padding-bottom: 20rem;
+  }
+  .header-top {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .nav {
+    order: 3;
+    width: 100%;
+  }
+  .nav-list {
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .nav-list__item {
+    font-size: 0.875rem;
+  }
+  .logo {
+    height: 2rem;
+  }
+  .header-avatar__poisk {
+    width: 100%;
+    display: block;
+  }
+  .header-avatar {
+    width: 100%;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .header-bottom {
+    margin-top: 10rem;
+    padding: 2rem 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .info__title {
+    font-size: 1.5rem;
+  }
+  .btn-genre {
+    font-size: 0.625rem;
+  }
+  .info-button {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .btn-counting,
+  .btn-add {
+    font-size: 0.75rem;
+    padding: 0.5rem 1rem;
+  }
+  .movie__title {
+    font-size: 1.25rem;
+  }
+  .movie {
+    width: 10rem;
+  }
+  .movie__img {
+    height: 15rem;
+  }
+  .skeleton-card {
+    width: 10rem;
+  }
+  .skeleton-card__poster {
+    height: 15rem;
+  }
+  .movies {
+    padding: 1rem 1.5rem;
+    gap: 0.625rem;
+  }
+  .arrow {
+    top: 10rem;
+    padding: 0 0.5rem;
+  }
+  .arrow-btn {
+    padding: 0.375rem;
+  }
+  .arrow-btn img {
+    width: 1rem;
+    height: 1rem;
+  }
+  .footer__container {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+  .content__title {
+    font-size: 1.25rem;
+    max-width: 100%;
+  }
+  .content-system {
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+  .services-section {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .services__desc {
+    font-size: 1rem;
+    text-align: center;
+  }
+  .services-coz {
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+  .services-age {
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+  .home__container {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .welcome {
+    padding: 5rem 1rem;
+  }
+  .welcome__title {
+    font-size: 1.75rem;
+  }
+  .welcome__desc {
+    font-size: 1rem;
+  }
+  .modal-login,
+  .modal-sign {
+    margin: 1rem;
+    padding: 1rem 1.25rem;
+    width: calc(100% - 2rem);
+  }
+  .modal-login__header,
+  .modal-sign__header {
+    gap: 2rem;
+  }
+  .login-btn,
+  .sign-btn {
+    font-size: 0.875rem;
+  }
+  .movies-details {
+    margin-top: 2rem;
+  }
+  .story__title,
+  .acter__title {
+    font-size: 1rem;
+  }
+  .acter-container {
+    padding: 1rem 1.5rem;
+    gap: 2rem;
+  }
+  .acter-details {
+    gap: 0.5rem;
+  }
+  .acter__img {
+    width: 2.5rem;
+    height: 4rem;
+  }
+  .acter-name__one {
+    font-size: 0.875rem;
+  }
+  .acter-name__two {
+    font-size: 0.625rem;
+  }
+  .video-modal-content {
+    width: 95%;
+    height: 60%;
+  }
+  .close-modal {
+    font-size: 24px;
+    right: 10px;
+    top: 5px;
+  }
+}
+@media (max-width: 480px) {
+  .movie {
+    width: 8.5rem;
+  }
+  .movie__img {
+    height: 12.5rem;
+  }
+  .skeleton-card {
+    width: 8.5rem;
+  }
+  .skeleton-card__poster {
+    height: 12.5rem;
+  }
+  .movie__name {
+    font-size: 0.75rem;
+    bottom: 1.25rem;
+  }
+  .movie-desc {
+    bottom: 0.25rem;
+  }
+  .movie-desc__rating,
+  .movie-desc__genre {
+    font-size: 0.625rem;
+  }
+  .welcome__title {
+    font-size: 1.375rem;
+  }
+  .nav-list {
+    gap: 0.5rem;
+  }
+  .nav-list__item {
+    font-size: 0.75rem;
+  }
+  .btn-sign,
+  .btn-login {
+    font-size: 0.8125rem;
+    padding: 0.5rem 0.75rem;
+  }
 }
